@@ -53,12 +53,12 @@ export class Box extends Shape {
 	override toHtml(): string {
 		return `
             <div class="box_${this.index}">
-                <div class="box_face_${this.index} box_face_${this.index}_front">front</div>
-                <div class="box_face_${this.index} box_face_${this.index}_back">back</div>
-                <div class="box_face_${this.index} box_face_${this.index}_right">right</div>
-                <div class="box_face_${this.index} box_face_${this.index}_left">left</div>
-                <div class="box_face_${this.index} box_face_${this.index}_top">top</div>
-                <div class="box_face_${this.index} box_face_${this.index}_bottom">bottom</div>
+                <div class="box_face_${this.index} box_face_${this.index}_front"></div>
+                <div class="box_face_${this.index} box_face_${this.index}_back"></div>
+                <div class="box_face_${this.index} box_face_${this.index}_right"></div>
+                <div class="box_face_${this.index} box_face_${this.index}_left"></div>
+                <div class="box_face_${this.index} box_face_${this.index}_top"></div>
+                <div class="box_face_${this.index} box_face_${this.index}_bottom"></div>
             </div>
         `;
 	}
@@ -82,6 +82,7 @@ export class Box extends Shape {
 
             .box_face_${this.index} {
                 position: absolute;
+                border: 1px solid black;
                 font-size: 40px;
                 font-weight: bold;
                 color: white;

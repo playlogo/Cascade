@@ -118,7 +118,7 @@ class ExportCubeDataOperator(bpy.types.Operator):
 
                 # Store cube
                 f.write(
-                    f"box {-loc.y} {-loc.z} {-loc.x} {scale.y} {scale.z} {scale.x} { self.radToDeg(rot[0])} {-rot[2]} {rot[3]} {-rot[1]} "
+                    f"box {-loc.y} {-loc.z} {-loc.x} {scale.y} {scale.z} {scale.x} {self.radToDeg(rot[0])} {-rot[2]} {rot[3]} {-rot[1]} "
                 )
                 f.write(" ".join(colors_hex))
                 f.write("\n")

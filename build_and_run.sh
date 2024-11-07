@@ -3,9 +3,6 @@
 # Kill the previous instance if it exists
 pkill -f "deno task run"
 
-# Build the project
-cmake -S . -B build 
-cmake --build build
 
 # File to store the execution count
 count_file="count.txt"
