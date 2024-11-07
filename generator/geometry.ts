@@ -31,8 +31,8 @@ export class Box extends Shape {
 
 		this.index = index;
 
-		this.pos = new Vector3(posX, posY, posZ);
-		this.size = new Vector3(sizeX, sizeY, sizeZ);
+		this.pos = new Vector3(posX, posY, posZ).scale();
+		this.size = new Vector3(sizeX, sizeY, sizeZ).scale();
 		this.rot = new Vector3(rotX, rotY, rotZ);
 
 		if (faceColors.length === 1) {
@@ -65,11 +65,13 @@ export class Box extends Shape {
 	override toCss(): string {
 		return `
             .box_${this.index} {
-                width: 300px;
-                height: 200px;
-                position: relative;
+                width: ${this.size.x}px;
+                height: ${this.size.y}px;
+                position: absolute;
                 transform-style: preserve-3d;
-                transform: translateZ(-50px);
+                transform: translateX(${this.pos.x}px) translateY(${this.pos.y}px) translateZ(${
+			this.pos.z
+		}px) rotateX(${this.rot.x}deg) rotateY(${this.rot.y}deg) rotateZ(${this.rot.z}deg);
                 transition: transform 1s;
             }
 
@@ -84,25 +86,25 @@ export class Box extends Shape {
 
             .box_face_${this.index}_front,
             .box_face_${this.index}_back {
-                width: 300px;
-                height: 200px;
-                line-height: 200px;
+                width: ${this.size.x}px;
+                height: ${this.size.y}px;
+                line-height: ${this.size.y}px;
             }
 
             .box_face_${this.index}_right,
             .box_face_${this.index}_left {
-                width: 100px;
-                height: 200px;
-                left: 100px;
-                line-height: 200px;
+                width: ${this.size.z}px;
+                height: ${this.size.y}px;
+                left: ${this.size.x / 2 - this.size.z / 2}px;
+                line-height: ${this.size.y}px;
             }
 
             .box_face_${this.index}_top,
             .box_face_${this.index}_bottom {
-                width: 300px;
-                height: 100px;
-                top: 50px;
-                line-height: 100px;
+                width: ${this.size.x}px;
+                height: ${this.size.z}px;
+                top: ${this.size.y / 2 - this.size.z / 2}px;
+                line-height: ${this.size.z}px;
             }
 
             .box_face_${this.index}_front  { background: ${this.faceColors[0]}; }
@@ -112,14 +114,14 @@ export class Box extends Shape {
             .box_face_${this.index}_top    { background: ${this.faceColors[4]}; }
             .box_face_${this.index}_bottom { background: ${this.faceColors[5]}; }
 
-            .box_face_${this.index}_front  { transform: rotateY(  0deg) translateZ( 50px); }
-            .box_face_${this.index}_back   { transform: rotateY(180deg) translateZ( 50px); }
+            .box_face_${this.index}_front  { transform: rotateY(  0deg) translateZ(${this.size.z / 2}px); }
+            .box_face_${this.index}_back   { transform: rotateY(180deg) translateZ(${this.size.z / 2}px); }
 
-            .box_face_${this.index}_right  { transform: rotateY( 90deg) translateZ(150px); }
-            .box_face_${this.index}_left   { transform: rotateY(-90deg) translateZ(150px); }
+            .box_face_${this.index}_right  { transform: rotateY( 90deg) translateZ(${this.size.x / 2}px); }
+            .box_face_${this.index}_left   { transform: rotateY(-90deg) translateZ(${this.size.x / 2}px); }
 
-            .box_face_${this.index}_top    { transform: rotateX( 90deg) translateZ(100px); }
-            .box_face_${this.index}_bottom { transform: rotateX(-90deg) translateZ(100px); }
+            .box_face_${this.index}_top    { transform: rotateX( 90deg) translateZ(${this.size.y / 2}px); }
+            .box_face_${this.index}_bottom { transform: rotateX(-90deg) translateZ(${this.size.y / 2}px); }
         `;
 	}
 }
@@ -139,7 +141,22 @@ export class Camera {
 	rot: Vector3;
 
 	constructor(posX: number, posY: number, posZ: number, rotX: number, rotY: number, rotZ: number) {
-		this.pos = new Vector3(posX, posY, posZ);
+		this.pos = new Vector3(posX, posY, posZ).scale();
 		this.rot = new Vector3(rotX, rotY, rotZ);
+	}
+
+	toCss(): string {
+		return `
+        .camera {
+                width: 400px;
+            height: 400px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            perspective: 400px;
+               }
+        }
+        `;
 	}
 }

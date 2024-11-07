@@ -21,10 +21,12 @@ const template = `
         }
 
         .scene {
-            width: 300px;
-            height: 200px;
-            border: 1px solid #CCC;
-            margin: 80px;
+            width: 400px;
+            height: 400px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) ;
             perspective: 400px;
         }
 

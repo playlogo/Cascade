@@ -1,11 +1,11 @@
 # type: camera posX posY posZ rotX rotY rotZ
-camera 10 0 0 0 0 0 
+camera 0 0 0 0 0 0 
 
 # type: box posX posY posZ sizeX sizeY sizeZ rotX rotY rotZ colorFrontFace colorLeftFace colorBackFace colorRightFace colorUpFace colorDownFace
-box 0 0 0 1 1 1 0 0 0 #ff0000aa #ff0000aa #ff0000aa #ff0000aa #ff0000aa #ff0000aa
+box 2 2 0 1 1 1 0 0 0 #ff0000aa #ff0000aa #ff0000aa #ff0000aa #ff0000aa #ff0000aa
 
-box 0 0 2 0.5 0.5 1 0 0 0 #ff0000aa #ff0000aa #ff0000aa #ff0000aa #ff0000aa #ff0000aa
 
+box 0 0 0 1 2 1 0 0 0 #ff0000aa #ff0000aa #ff0000aa #ff0000aa #ff0000aa #ff0000aa
 
 # type: plane posX posY posZ sizeX sizeY rotX rotY rotZ colorUpFace colorDownFace
 # plane 0 0 0 1 1 0 0 0 green red

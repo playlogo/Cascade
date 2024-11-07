@@ -11,20 +11,22 @@
         }
 
         .scene {
-            width: 300px;
-            height: 200px;
-            border: 1px solid #CCC;
-            margin: 80px;
+            width: 400px;
+            height: 400px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) ;
             perspective: 400px;
         }
 
         
             .box_1 {
-                width: 300px;
-                height: 200px;
-                position: relative;
+                width: 100px;
+                height: 100px;
+                position: absolute;
                 transform-style: preserve-3d;
-                transform: translateZ(-50px);
+                transform: translateX(200px) translateY(200px) translateZ(0px) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
                 transition: transform 1s;
             }
 
@@ -39,24 +41,24 @@
 
             .box_face_1_front,
             .box_face_1_back {
-                width: 300px;
-                height: 200px;
-                line-height: 200px;
+                width: 100px;
+                height: 100px;
+                line-height: 100px;
             }
 
             .box_face_1_right,
             .box_face_1_left {
                 width: 100px;
-                height: 200px;
-                left: 100px;
-                line-height: 200px;
+                height: 100px;
+                left: 0px;
+                line-height: 100px;
             }
 
             .box_face_1_top,
             .box_face_1_bottom {
-                width: 300px;
+                width: 100px;
                 height: 100px;
-                top: 50px;
+                top: 0px;
                 line-height: 100px;
             }
 
@@ -67,21 +69,21 @@
             .box_face_1_top    { background: #ff0000aa; }
             .box_face_1_bottom { background: #ff0000aa; }
 
-            .box_face_1_front  { transform: rotateY(  0deg) translateZ( 50px); }
-            .box_face_1_back   { transform: rotateY(180deg) translateZ( 50px); }
+            .box_face_1_front  { transform: rotateY(  0deg) translateZ(50px); }
+            .box_face_1_back   { transform: rotateY(180deg) translateZ(50px); }
 
-            .box_face_1_right  { transform: rotateY( 90deg) translateZ(150px); }
-            .box_face_1_left   { transform: rotateY(-90deg) translateZ(150px); }
+            .box_face_1_right  { transform: rotateY( 90deg) translateZ(50px); }
+            .box_face_1_left   { transform: rotateY(-90deg) translateZ(50px); }
 
-            .box_face_1_top    { transform: rotateX( 90deg) translateZ(100px); }
-            .box_face_1_bottom { transform: rotateX(-90deg) translateZ(100px); }
+            .box_face_1_top    { transform: rotateX( 90deg) translateZ(50px); }
+            .box_face_1_bottom { transform: rotateX(-90deg) translateZ(50px); }
         
             .box_2 {
-                width: 300px;
+                width: 100px;
                 height: 200px;
-                position: relative;
+                position: absolute;
                 transform-style: preserve-3d;
-                transform: translateZ(-50px);
+                transform: translateX(0px) translateY(0px) translateZ(0px) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
                 transition: transform 1s;
             }
 
@@ -96,7 +98,7 @@
 
             .box_face_2_front,
             .box_face_2_back {
-                width: 300px;
+                width: 100px;
                 height: 200px;
                 line-height: 200px;
             }
@@ -105,13 +107,13 @@
             .box_face_2_left {
                 width: 100px;
                 height: 200px;
-                left: 100px;
+                left: 0px;
                 line-height: 200px;
             }
 
             .box_face_2_top,
             .box_face_2_bottom {
-                width: 300px;
+                width: 100px;
                 height: 100px;
                 top: 50px;
                 line-height: 100px;
@@ -124,11 +126,11 @@
             .box_face_2_top    { background: #ff0000aa; }
             .box_face_2_bottom { background: #ff0000aa; }
 
-            .box_face_2_front  { transform: rotateY(  0deg) translateZ( 50px); }
-            .box_face_2_back   { transform: rotateY(180deg) translateZ( 50px); }
+            .box_face_2_front  { transform: rotateY(  0deg) translateZ(50px); }
+            .box_face_2_back   { transform: rotateY(180deg) translateZ(50px); }
 
-            .box_face_2_right  { transform: rotateY( 90deg) translateZ(150px); }
-            .box_face_2_left   { transform: rotateY(-90deg) translateZ(150px); }
+            .box_face_2_right  { transform: rotateY( 90deg) translateZ(50px); }
+            .box_face_2_left   { transform: rotateY(-90deg) translateZ(50px); }
 
             .box_face_2_top    { transform: rotateX( 90deg) translateZ(100px); }
             .box_face_2_bottom { transform: rotateX(-90deg) translateZ(100px); }

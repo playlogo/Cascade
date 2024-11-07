@@ -1,3 +1,5 @@
+const SCALE = 100;
+
 export class Vector3 extends Array {
 	constructor(...args: number[]) {
 		if (args.length === 1 && typeof args[0] === "number") {
@@ -13,6 +15,14 @@ export class Vector3 extends Array {
 
 	add(other: Vector3) {
 		return this.map((e, i) => e + other[i]);
+	}
+
+	scale() {
+		this[0] *= SCALE;
+		this[1] *= SCALE;
+		this[2] *= SCALE;
+
+		return this;
 	}
 
 	get x() {
