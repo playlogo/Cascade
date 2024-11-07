@@ -1,7 +1,14 @@
 import { Project } from "./project.ts";
 
+// Parse arg
+const args = Deno.args;
+if (args.length === 0) {
+	console.error("Missing shapes file");
+	Deno.exit(1);
+}
+
 // Read shapes file
-const project = new Project();
+const project = new Project(args[0]);
 console.log(project.shapes);
 
 // Generate

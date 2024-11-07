@@ -4,7 +4,7 @@ export class Project {
 	shapes: Shape[] = [];
 	camera: Camera | undefined;
 
-	constructor(public fileName: string = "blender/v1.txt") {
+	constructor(public fileName: string = "out/shapes.txt") {
 		const content = this.loadShapesFile(fileName);
 
 		this.shapes = this.parseShapesFile(content);
@@ -68,14 +68,16 @@ export class Project {
 	}
 
 	parseBox(parts: string[], index: number): Shape {
-		if (parts.length !== 16) {
+		if (parts.length !== 17) {
 			throw new Error(`Invalid box line: ${parts.join(" ")}`);
 		}
 
-		const [posX, posY, posZ, sizeX, sizeY, sizeZ, rotX, rotY, rotZ] = parts.slice(1, 10).map(parseFloat);
-		const colors = parts.slice(10);
+		const [posX, posY, posZ, sizeX, sizeY, sizeZ, rotA, rotX, rotY, rotZ] = parts
+			.slice(1, 11)
+			.map(parseFloat);
+		const colors = parts.slice(11);
 
-		return new Box(posX, posY, posZ, sizeX, sizeY, sizeZ, rotX, rotY, rotZ, colors, index);
+		return new Box(posX, posY, posZ, sizeX, sizeY, sizeZ, rotA, rotX, rotY, rotZ, colors, index);
 	}
 
 	parsePlane(parts: string[], index: number): Shape {

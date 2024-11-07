@@ -10,7 +10,7 @@ export class Box extends Shape {
 
 	pos: Vector3;
 	size: Vector3;
-	rot: Vector3;
+	rot: number[];
 
 	faceColors: string[];
 
@@ -21,6 +21,7 @@ export class Box extends Shape {
 		sizeX: number,
 		sizeY: number,
 		sizeZ: number,
+		rotA: number,
 		rotX: number,
 		rotY: number,
 		rotZ: number,
@@ -33,7 +34,7 @@ export class Box extends Shape {
 
 		this.pos = new Vector3(posX, posY, posZ).scale();
 		this.size = new Vector3(sizeX, sizeY, sizeZ).scale();
-		this.rot = new Vector3(rotX, rotY, rotZ);
+		this.rot = [rotA, rotX, rotY, rotZ];
 
 		if (faceColors.length === 1) {
 			this.faceColors = [
@@ -73,9 +74,9 @@ export class Box extends Shape {
 					this.pos.x - camera.pos.x + this.size.x / 2
 				}px) ) translateY(calc(100vh / 2 - ${
 			this.pos.y - camera.pos.y + this.size.y / 2
-		}px)) translateZ(${this.pos.z - camera.pos.z + this.size.z / 2}px) rotateX(${
-			this.rot.x
-		}deg) rotateY(${this.rot.y}deg) rotateZ(${this.rot.z}deg);
+		}px)) translateZ(${this.pos.z - camera.pos.z + this.size.z / 2}px) rotate3D(${this.rot[1]}, ${
+			this.rot[2]
+		}, ${this.rot[3]}, ${this.rot[0]}deg)  ;
                 transition: transform 1s;
             }
 

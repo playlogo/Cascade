@@ -1,9 +1,0 @@
-# type: camera posX posY posZ rotX rotY rotZ
-camera 0.0 0.0 9.222519874572754 0.0 1.5707963705062866 1.5707963705062866
-
-# type: box posX posY posZ sizeX sizeY sizeZ rotX rotY rotZ colorFrontFace colorLeftFace colorBackFace colorRightFace colorUpFace colorDownFace
-box 0.0 0.0 1.0666875839233398 1.0 1.0 1.0 60.06354291950074 -37.086567985524404 31.01644568144526 #cc0009ff #cc0009ff #cc0009ff #cc0009ff #cc0009ff #cc059dff
-
-# type: box posX posY posZ sizeX sizeY sizeZ rotX rotY rotZ colorFrontFace colorLeftFace colorBackFace colorRightFace colorUpFace colorDownFace
-box -3.9340760707855225 0.0 1.0666875839233398 1.0 1.0 3.507488965988159 -18.841624948161066 -16.25819810215754 -37.37669393089904 #ccccccff #ccccccff #ccccccff #ccccccff #ccccccff #ccccccff
-
