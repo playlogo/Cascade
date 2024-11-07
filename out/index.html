@@ -1,0 +1,159 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Shapes</title>
+    <style>
+        body { 
+            font-family: sans-serif;
+        }
+
+        .scene {
+            width: 300px;
+            height: 200px;
+            border: 1px solid #CCC;
+            margin: 80px;
+            perspective: 400px;
+        }
+
+        
+            .box_1 {
+                width: 300px;
+                height: 200px;
+                position: relative;
+                transform-style: preserve-3d;
+                transform: translateZ(-50px);
+                transition: transform 1s;
+            }
+
+            .box_face_1 {
+                position: absolute;
+                border: 2px solid black;
+                font-size: 40px;
+                font-weight: bold;
+                color: white;
+                text-align: center;
+            }
+
+            .box_face_1_front,
+            .box_face_1_back {
+                width: 300px;
+                height: 200px;
+                line-height: 200px;
+            }
+
+            .box_face_1_right,
+            .box_face_1_left {
+                width: 100px;
+                height: 200px;
+                left: 100px;
+                line-height: 200px;
+            }
+
+            .box_face_1_top,
+            .box_face_1_bottom {
+                width: 300px;
+                height: 100px;
+                top: 50px;
+                line-height: 100px;
+            }
+
+            .box_face_1_front  { background: #ff0000aa; }
+            .box_face_1_right  { background: #ff0000aa; }
+            .box_face_1_back   { background: #ff0000aa; }
+            .box_face_1_left   { background: #ff0000aa; }
+            .box_face_1_top    { background: #ff0000aa; }
+            .box_face_1_bottom { background: #ff0000aa; }
+
+            .box_face_1_front  { transform: rotateY(  0deg) translateZ( 50px); }
+            .box_face_1_back   { transform: rotateY(180deg) translateZ( 50px); }
+
+            .box_face_1_right  { transform: rotateY( 90deg) translateZ(150px); }
+            .box_face_1_left   { transform: rotateY(-90deg) translateZ(150px); }
+
+            .box_face_1_top    { transform: rotateX( 90deg) translateZ(100px); }
+            .box_face_1_bottom { transform: rotateX(-90deg) translateZ(100px); }
+        
+            .box_2 {
+                width: 300px;
+                height: 200px;
+                position: relative;
+                transform-style: preserve-3d;
+                transform: translateZ(-50px);
+                transition: transform 1s;
+            }
+
+            .box_face_2 {
+                position: absolute;
+                border: 2px solid black;
+                font-size: 40px;
+                font-weight: bold;
+                color: white;
+                text-align: center;
+            }
+
+            .box_face_2_front,
+            .box_face_2_back {
+                width: 300px;
+                height: 200px;
+                line-height: 200px;
+            }
+
+            .box_face_2_right,
+            .box_face_2_left {
+                width: 100px;
+                height: 200px;
+                left: 100px;
+                line-height: 200px;
+            }
+
+            .box_face_2_top,
+            .box_face_2_bottom {
+                width: 300px;
+                height: 100px;
+                top: 50px;
+                line-height: 100px;
+            }
+
+            .box_face_2_front  { background: #ff0000aa; }
+            .box_face_2_right  { background: #ff0000aa; }
+            .box_face_2_back   { background: #ff0000aa; }
+            .box_face_2_left   { background: #ff0000aa; }
+            .box_face_2_top    { background: #ff0000aa; }
+            .box_face_2_bottom { background: #ff0000aa; }
+
+            .box_face_2_front  { transform: rotateY(  0deg) translateZ( 50px); }
+            .box_face_2_back   { transform: rotateY(180deg) translateZ( 50px); }
+
+            .box_face_2_right  { transform: rotateY( 90deg) translateZ(150px); }
+            .box_face_2_left   { transform: rotateY(-90deg) translateZ(150px); }
+
+            .box_face_2_top    { transform: rotateX( 90deg) translateZ(100px); }
+            .box_face_2_bottom { transform: rotateX(-90deg) translateZ(100px); }
+        
+    </style>
+</head>
+<body>
+    <div class="scene">
+            <div class="box_1">
+                <div class="box_face_1 box_face_1_front">front</div>
+                <div class="box_face_1 box_face_1_back">back</div>
+                <div class="box_face_1 box_face_1_right">right</div>
+                <div class="box_face_1 box_face_1_left">left</div>
+                <div class="box_face_1 box_face_1_top">top</div>
+                <div class="box_face_1 box_face_1_bottom">bottom</div>
+            </div>
+        
+            <div class="box_2">
+                <div class="box_face_2 box_face_2_front">front</div>
+                <div class="box_face_2 box_face_2_back">back</div>
+                <div class="box_face_2 box_face_2_right">right</div>
+                <div class="box_face_2 box_face_2_left">left</div>
+                <div class="box_face_2 box_face_2_top">top</div>
+                <div class="box_face_2 box_face_2_bottom">bottom</div>
+            </div>
+        </div>
+</body>
+</html>
