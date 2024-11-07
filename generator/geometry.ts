@@ -81,7 +81,6 @@ export class Box extends Shape {
 
             .box_face_${this.index} {
                 position: absolute;
-                border: 2px solid black;
                 font-size: 40px;
                 font-weight: bold;
                 color: white;

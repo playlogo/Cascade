@@ -4,7 +4,7 @@ export class Project {
 	shapes: Shape[] = [];
 	camera: Camera | undefined;
 
-	constructor(public fileName: string = "out/shape.txt") {
+	constructor(public fileName: string = "blender/v1.txt") {
 		const content = this.loadShapesFile(fileName);
 
 		this.shapes = this.parseShapesFile(content);
