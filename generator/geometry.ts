@@ -2,7 +2,7 @@ import { Vector3 } from "./vector.ts";
 
 export abstract class Shape {
 	abstract toHtml(): string;
-	abstract toCss(): string;
+	abstract toCss(camera: Camera): string;
 }
 
 export class Box extends Shape {
@@ -62,16 +62,20 @@ export class Box extends Shape {
         `;
 	}
 
-	override toCss(): string {
+	override toCss(camera: Camera): string {
 		return `
             .box_${this.index} {
                 width: ${this.size.x}px;
                 height: ${this.size.y}px;
                 position: absolute;
                 transform-style: preserve-3d;
-                transform: translateX(${this.pos.x}px) translateY(${this.pos.y}px) translateZ(${
-			this.pos.z
-		}px) rotateX(${this.rot.x}deg) rotateY(${this.rot.y}deg) rotateZ(${this.rot.z}deg);
+                transform:  translateX(calc(100vw / 2 - ${
+					this.pos.x - camera.pos.x + this.size.x / 2
+				}px) ) translateY(calc(100vh / 2 - ${
+			this.pos.y - camera.pos.y + this.size.y / 2
+		}px)) translateZ(${this.pos.z - camera.pos.z + this.size.z / 2}px) rotateX(${
+			this.rot.x
+		}deg) rotateY(${this.rot.y}deg) rotateZ(${this.rot.z}deg);
                 transition: transform 1s;
             }
 
@@ -131,7 +135,7 @@ export class Plane extends Shape {
 		throw new Error("Method not implemented.");
 	}
 
-	override toCss(): string {
+	override toCss(camera: Camera): string {
 		throw new Error("Method not implemented.");
 	}
 }

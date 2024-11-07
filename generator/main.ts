@@ -18,16 +18,18 @@ const template = `
     <style>
         body { 
             font-family: sans-serif;
+            margin: 0;
+            overflow: hidden;
         }
 
         .scene {
-            width: 400px;
-            height: 400px;
-            position: absolute;
+            width: 100vw;
+            height: 100vh;
+            /*position: absolute;
             top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) ;
-            perspective: 400px;
+            left: 50%;*/
+            transform-style: preserve-3d;
+            perspective: 800px;
         }
 
         ${cssStyles}

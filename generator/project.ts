@@ -51,6 +51,10 @@ export class Project {
 			index++;
 		}
 
+		if (!this.camera) {
+			throw new Error("Missing Camera!");
+		}
+
 		return shapes;
 	}
 
@@ -90,7 +94,7 @@ export class Project {
 			// Add Shapes
 			for (const shape of this.shapes) {
 				html += shape.toHtml();
-				styles += shape.toCss();
+				styles += shape.toCss(this.camera!);
 			}
 		}
 

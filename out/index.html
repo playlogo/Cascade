@@ -8,25 +8,27 @@
     <style>
         body { 
             font-family: sans-serif;
+            margin: 0;
+            overflow: hidden;
         }
 
         .scene {
-            width: 400px;
-            height: 400px;
-            position: absolute;
+            width: 100vw;
+            height: 100vh;
+            /*position: absolute;
             top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) ;
-            perspective: 400px;
+            left: 50%;*/
+            transform-style: preserve-3d;
+            perspective: 800px;
         }
 
         
             .box_1 {
                 width: 100px;
-                height: 100px;
+                height: 300px;
                 position: absolute;
                 transform-style: preserve-3d;
-                transform: translateX(200px) translateY(200px) translateZ(0px) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+                transform:  translateX(calc(100vw / 2 - 50px) ) translateY(calc(100vh / 2 - 150px)) translateZ(-450px) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
                 transition: transform 1s;
             }
 
@@ -42,23 +44,23 @@
             .box_face_1_front,
             .box_face_1_back {
                 width: 100px;
-                height: 100px;
-                line-height: 100px;
+                height: 300px;
+                line-height: 300px;
             }
 
             .box_face_1_right,
             .box_face_1_left {
                 width: 100px;
-                height: 100px;
+                height: 300px;
                 left: 0px;
-                line-height: 100px;
+                line-height: 300px;
             }
 
             .box_face_1_top,
             .box_face_1_bottom {
                 width: 100px;
                 height: 100px;
-                top: 0px;
+                top: 100px;
                 line-height: 100px;
             }
 
@@ -75,15 +77,15 @@
             .box_face_1_right  { transform: rotateY( 90deg) translateZ(50px); }
             .box_face_1_left   { transform: rotateY(-90deg) translateZ(50px); }
 
-            .box_face_1_top    { transform: rotateX( 90deg) translateZ(50px); }
-            .box_face_1_bottom { transform: rotateX(-90deg) translateZ(50px); }
+            .box_face_1_top    { transform: rotateX( 90deg) translateZ(150px); }
+            .box_face_1_bottom { transform: rotateX(-90deg) translateZ(150px); }
         
             .box_2 {
                 width: 100px;
-                height: 200px;
+                height: 100px;
                 position: absolute;
                 transform-style: preserve-3d;
-                transform: translateX(0px) translateY(0px) translateZ(0px) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+                transform:  translateX(calc(100vw / 2 - 50px) ) translateY(calc(100vh / 2 - 50px)) translateZ(650px) rotateX(0deg) rotateY(0deg) rotateZ(0deg);
                 transition: transform 1s;
             }
 
@@ -99,23 +101,23 @@
             .box_face_2_front,
             .box_face_2_back {
                 width: 100px;
-                height: 200px;
-                line-height: 200px;
+                height: 100px;
+                line-height: 100px;
             }
 
             .box_face_2_right,
             .box_face_2_left {
                 width: 100px;
-                height: 200px;
+                height: 100px;
                 left: 0px;
-                line-height: 200px;
+                line-height: 100px;
             }
 
             .box_face_2_top,
             .box_face_2_bottom {
                 width: 100px;
                 height: 100px;
-                top: 50px;
+                top: 0px;
                 line-height: 100px;
             }
 
@@ -132,8 +134,8 @@
             .box_face_2_right  { transform: rotateY( 90deg) translateZ(50px); }
             .box_face_2_left   { transform: rotateY(-90deg) translateZ(50px); }
 
-            .box_face_2_top    { transform: rotateX( 90deg) translateZ(100px); }
-            .box_face_2_bottom { transform: rotateX(-90deg) translateZ(100px); }
+            .box_face_2_top    { transform: rotateX( 90deg) translateZ(50px); }
+            .box_face_2_bottom { transform: rotateX(-90deg) translateZ(50px); }
         
     </style>
 </head>
