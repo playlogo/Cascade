@@ -43,7 +43,7 @@ class BlenderImporter extends Importer {
 		res.y = vec.z;
 		res.z = vec.x;
 
-		return res;
+		return res.multi(new Vector(2, 2, 2));
 	}
 
 	rotation(vec: Vector): Vector {

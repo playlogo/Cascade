@@ -13,8 +13,19 @@ export class Vector extends Array {
 		}
 	}
 
-	add(other: Vector) {
-		return this.map((e, i) => e + other[i]);
+	add(other: Vector): Vector {
+		for (let i = 0; i < this.length; i++) {
+			this[i] += other[i];
+		}
+
+		return this;
+	}
+
+	multi(other: Vector): Vector {
+		for (let i = 0; i < this.length; i++) {
+			this[i] *= other[i];
+		}
+		return this;
 	}
 
 	scale() {

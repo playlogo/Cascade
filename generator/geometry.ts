@@ -57,18 +57,10 @@ export class Box extends Shape {
                 height: ${this.size.y}px;
                 position: absolute;
                 transform-style: preserve-3d;
-                transform:  translateX(calc(100vw / 2 - ${
-					this.pos.x - camera.pos.x + this.size.x / 2
-				}px) ) translateY(calc(100vh / 2 - ${
-			this.pos.y - camera.pos.y + this.size.y / 2
-		}px)) translateZ(${this.pos.z - camera.pos.z + this.size.z / 2}px) rotate3D(${this.rot[1]}, ${
-			this.rot[2]
-		}, ${this.rot[3]}, ${this.rot[0]}deg);
-                /*transform:  translateX(calc(100vw / 2 - ${this.pos.x}px) ) translateY(calc(100vh / 2 - ${
-			this.pos.y
-		}px)) translateZ(${this.pos.z}px) rotate3D(${this.rot[1]}, ${this.rot[2]}, ${this.rot[3]}, ${
-			this.rot[0]
-		}deg);*/
+                transform: translateX(calc(50vw -  ${this.pos.x + this.size.x / 2 - camera.pos.x}px)) 
+                          translateY(calc(50vh - ${this.pos.y + this.size.y / 2 - camera.pos.y}px)) 
+                          translateZ(${this.pos.z - camera.pos.z}px) 
+                          rotate3D(${this.rot[1]}, ${this.rot[2]}, ${this.rot[3]}, ${this.rot[0]}deg);
                 transition: transform 1s;
             }
 
