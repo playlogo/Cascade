@@ -9,7 +9,6 @@ if (args.length === 0) {
 
 // Read shapes file
 const project = new Project(args[0]);
-console.log(project.shapes);
 
 // Generate
 const [htmlDOM, cssStyles] = project.generate();

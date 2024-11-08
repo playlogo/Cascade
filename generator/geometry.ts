@@ -1,4 +1,4 @@
-import { Vector3 } from "./vector.ts";
+import { Vector } from "./vector.ts";
 
 export abstract class Shape {
 	abstract toHtml(): string;
@@ -8,33 +8,20 @@ export abstract class Shape {
 export class Box extends Shape {
 	index: number;
 
-	pos: Vector3;
-	size: Vector3;
+	pos: Vector;
+	size: Vector;
 	rot: number[];
 
 	faceColors: string[];
 
-	constructor(
-		posX: number,
-		posY: number,
-		posZ: number,
-		sizeX: number,
-		sizeY: number,
-		sizeZ: number,
-		rotA: number,
-		rotX: number,
-		rotY: number,
-		rotZ: number,
-		faceColors: string[],
-		index: number
-	) {
+	constructor(pos: Vector, size: Vector, rot: Vector, faceColors: string[], index: number) {
 		super();
 
 		this.index = index;
 
-		this.pos = new Vector3(posX, posY, posZ).scale();
-		this.size = new Vector3(sizeX, sizeY, sizeZ).scale();
-		this.rot = [rotA, rotX, rotY, rotZ];
+		this.pos = pos;
+		this.size = size;
+		this.rot = rot;
 
 		if (faceColors.length === 1) {
 			this.faceColors = [
@@ -76,7 +63,12 @@ export class Box extends Shape {
 			this.pos.y - camera.pos.y + this.size.y / 2
 		}px)) translateZ(${this.pos.z - camera.pos.z + this.size.z / 2}px) rotate3D(${this.rot[1]}, ${
 			this.rot[2]
-		}, ${this.rot[3]}, ${this.rot[0]}deg)  ;
+		}, ${this.rot[3]}, ${this.rot[0]}deg);
+                /*transform:  translateX(calc(100vw / 2 - ${this.pos.x}px) ) translateY(calc(100vh / 2 - ${
+			this.pos.y
+		}px)) translateZ(${this.pos.z}px) rotate3D(${this.rot[1]}, ${this.rot[2]}, ${this.rot[3]}, ${
+			this.rot[0]
+		}deg);*/
                 transition: transform 1s;
             }
 
@@ -142,12 +134,12 @@ export class Plane extends Shape {
 }
 
 export class Camera {
-	pos: Vector3;
-	rot: Vector3;
+	pos: Vector;
+	rot: Vector;
 
-	constructor(posX: number, posY: number, posZ: number, rotX: number, rotY: number, rotZ: number) {
-		this.pos = new Vector3(posX, posY, posZ).scale();
-		this.rot = new Vector3(rotX, rotY, rotZ);
+	constructor(position: Vector, rotation: Vector) {
+		this.pos = position;
+		this.rot = rotation;
 	}
 
 	toCss(): string {
