@@ -6,6 +6,7 @@ abstract class Importer {
 	abstract position(vec: Vector): Vector;
 	abstract size(vec: Vector): Vector;
 	abstract rotation(vec: Vector): Vector;
+	abstract keyframes(keyframes: RawKeyframe[]): Keyframe[];
 }
 
 class BlenderImporter extends Importer {
@@ -22,7 +23,10 @@ class BlenderImporter extends Importer {
 		face_colors[4] = faces[5]; // TOP
 		face_colors[5] = faces[4]; // BOTTOM
 
-		console.log(face_colors);
+		// Temporary fix
+		face_colors[4] = faces[4];
+		face_colors[5] = faces[5];
+
 		return face_colors;
 	}
 
@@ -55,11 +59,31 @@ class BlenderImporter extends Importer {
 
 		return res;
 	}
+
+	keyframes(keyframes: RawKeyframe[]): Keyframe[] {
+		const res: Keyframe[] = [];
+
+		for (const keyframe of keyframes) {
+			const loc = new Vector(keyframe.loc[0], keyframe.loc[1], keyframe.loc[2]).scale();
+			const scale = new Vector(keyframe.scale[0], keyframe.scale[1], keyframe.scale[2]).scale();
+			const rot = new Vector(keyframe.rot[0], keyframe.rot[1], keyframe.rot[2], keyframe.rot[3]);
+
+			res.push({
+				frame: keyframe.frame,
+				loc: this.position(loc),
+				scale: this.size(scale),
+				rot: this.rotation(rot),
+			});
+		}
+
+		return res;
+	}
 }
 
 export class Project {
 	shapes: Shape[] = [];
 	camera: Camera | undefined;
+	totalFrames = 0;
 
 	constructor(
 		public fileName: string = "out/shapes.txt",
@@ -80,6 +104,19 @@ export class Project {
 
 		for (const line of content.split("\n")) {
 			const trimmed = line.trim();
+			// Read metadata
+			try {
+				if (index === 0) {
+					const metaData = JSON.parse(trimmed.slice(2));
+					this.totalFrames = metaData.maxFrame;
+				}
+			} catch (e) {
+				console.error("Unable to parse metadata");
+				console.error(trimmed);
+				console.error(e);
+			}
+
+			index++;
 
 			// Empty line
 			if (trimmed === "") {
@@ -91,24 +128,29 @@ export class Project {
 				continue;
 			}
 
-			const parts = trimmed.toLowerCase().split(" ");
+			// Load lines
+			let entry: Line;
+			try {
+				entry = JSON.parse(trimmed) as Line;
+			} catch (e) {
+				continue;
+			}
 
-			switch (parts[0]) {
+			switch (entry.type) {
 				case "camera":
-					this.parseCamera(parts);
+					throw new Error("Camera not implemented");
+					//this.parseCamera(parts);
 					break;
 				case "box":
-					shapes.push(this.parseBox(parts, index));
+					shapes.push(this.parseBox(entry, index));
 					break;
 				case "plane":
 					throw new Error("Plane not implemented");
 					//shapes.push(this.parsePlane(parts, index));
 					break;
 				default:
-					throw new Error(`Unknown shape: ${parts[0]}`);
+					throw new Error(`Unknown type: ${entry.type}`);
 			}
-
-			index++;
 		}
 
 		if (!this.camera) {
@@ -132,26 +174,19 @@ export class Project {
 		this.camera = new Camera(this.importer.position(pos), this.importer.rotation(rot));
 	}
 
-	parseBox(parts: string[], index: number): Shape {
-		if (parts.length !== 17) {
-			throw new Error(`Invalid box line: ${parts.join(" ")}`);
-		}
-
-		const [posX, posY, posZ, sizeX, sizeY, sizeZ, rotA, rotX, rotY, rotZ] = parts
-			.slice(1, 11)
-			.map(parseFloat);
-		const colors = parts.slice(11);
-
-		const pos = new Vector(posX, posY, posZ).scale();
-		const scale = new Vector(sizeX, sizeY, sizeZ).scale();
-		const rot = new Vector(rotA, rotX, rotY, rotZ);
+	parseBox(line: Line, index: number): Shape {
+		const pos = new Vector(...line.location).scale();
+		const scale = new Vector(...line.scale).scale();
+		const rot = new Vector(...line.rotation);
 
 		return new Box(
 			this.importer.position(pos),
 			this.importer.size(scale),
 			this.importer.rotation(rot),
-			this.importer.boxFaces(colors),
-			index
+			this.importer.boxFaces(line.face_colors),
+			this.importer.keyframes(line.keyframes),
+			index,
+			this.totalFrames
 		);
 	}
 
@@ -181,13 +216,26 @@ export class Project {
 	}
 }
 
-/*
-# type: camera posX posY posZ rotX rotY rotZ
-camera 10 0 0 0 0 0 
+interface Line {
+	type: string;
+	name: string;
+	location: [number, number, number];
+	scale: [number, number, number];
+	rotation: [number, number, number, number];
+	face_colors: [string, string, string, string, string, string];
+	keyframes: RawKeyframe[];
+}
 
-# type: box posX posY posZ sizeX sizeY sizeZ rotX rotY rotZ colorFrontFace colorLeftFace colorBackFace colorRightFace colorUpFace colorDownFace
-box 0 0 0 1 1 1 0 0 0 red red red red red red
+interface RawKeyframe {
+	frame: number;
+	loc: [number, number, number];
+	scale: [number, number, number];
+	rot: [number, number, number, number];
+}
 
-# type: plane posX posY posZ sizeX sizeY rotX rotY rotZ colorUpFace colorDownFace
-# plane 0 0 0 1 1 0 0 0 green red
-*/
+export interface Keyframe {
+	frame: number;
+	loc: Vector;
+	scale: Vector;
+	rot: Vector;
+}

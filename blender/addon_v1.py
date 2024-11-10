@@ -53,13 +53,8 @@ class ExportCubeDataOperator(bpy.types.Operator):
             scale = obj.scale.copy()
             rotation = obj.rotation_euler.copy()
 
-            # Ensure the rotation is in quaternion format
             rotation_quaternion = rotation.to_quaternion()
-
-            # Convert quaternion to axis-angle
             axis, angle = rotation_quaternion.to_axis_angle()
-
-            # Store the rotation as (axis_x, axis_y, axis_z, angle)
             rotation = (self.radToDeg(angle), axis.x, axis.y, axis.z)
 
             # Collect face colors with consistent face order
@@ -120,16 +115,15 @@ class ExportCubeDataOperator(bpy.types.Operator):
                     if frame > max_frame:
                         max_frame = frame
                     loc = obj.location.copy()
-                    rot = (
-                        obj.rotation_quaternion.copy()
-                        if obj.rotation_mode == "QUATERNION"
-                        else obj.rotation_euler.to_quaternion()
-                    )
+                    rotation_frame = obj.rotation_euler.copy()
+                    rotation_quaternion = rotation_frame.to_quaternion()
+                    axis, angle = rotation_quaternion.to_axis_angle()
+
                     scale = obj.scale.copy()
                     keyframe_data = {
                         "frame": frame,
                         "loc": [loc.x, loc.y, loc.z],
-                        "rot": [rot.w, rot.x, rot.y, rot.z],
+                        "rot": [self.radToDeg(angle), axis.x, axis.y, axis.z],
                         "scale": [scale.x, scale.y, scale.z],
                     }
                     keyframes.append(keyframe_data)

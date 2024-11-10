@@ -1,4 +1,7 @@
+import { Keyframe } from "./project.ts";
 import { Vector } from "./vector.ts";
+
+const FRAME_RATE = 60;
 
 export abstract class Shape {
 	abstract toHtml(): string;
@@ -13,8 +16,19 @@ export class Box extends Shape {
 	rot: number[];
 
 	faceColors: string[];
+	totalFrames: number;
 
-	constructor(pos: Vector, size: Vector, rot: Vector, faceColors: string[], index: number) {
+	keyframes: Keyframe[];
+
+	constructor(
+		pos: Vector,
+		size: Vector,
+		rot: Vector,
+		faceColors: string[],
+		keyframes: Keyframe[],
+		index: number,
+		totalFrames: number
+	) {
 		super();
 
 		this.index = index;
@@ -35,6 +49,9 @@ export class Box extends Shape {
 		} else {
 			this.faceColors = faceColors;
 		}
+
+		this.totalFrames = totalFrames;
+		this.keyframes = keyframes;
 	}
 
 	override toHtml(): string {
@@ -51,6 +68,23 @@ export class Box extends Shape {
 	}
 
 	override toCss(camera: Camera): string {
+		const keyframes = this.keyframes
+			.map((keyframe) => {
+				return `
+                ${Math.floor((keyframe.frame / this.totalFrames) * 100)}% {
+                    transform: translateX(calc(50vw -  ${
+						keyframe.loc.x + keyframe.scale.x / 2 - camera.pos.x
+					}px)) 
+                          translateY(calc(50vh - ${keyframe.loc.y + keyframe.scale.y / 2 - camera.pos.y}px)) 
+                          translateZ(${keyframe.loc.z + keyframe.scale.z / 2 - camera.pos.z}px) 
+                          rotate3D(${keyframe.rot[1]}, ${keyframe.rot[2]}, ${keyframe.rot[3]}, ${
+					keyframe.rot[0]
+				}deg);
+                }
+            `;
+			})
+			.join("\n");
+
 		return `
             .box_${this.index} {
                 width: ${this.size.x}px;
@@ -59,9 +93,16 @@ export class Box extends Shape {
                 transform-style: preserve-3d;
                 transform: translateX(calc(50vw -  ${this.pos.x + this.size.x / 2 - camera.pos.x}px)) 
                           translateY(calc(50vh - ${this.pos.y + this.size.y / 2 - camera.pos.y}px)) 
-                          translateZ(${this.pos.z - camera.pos.z}px) 
+                          translateZ(${this.pos.z + this.size.z / 2 - camera.pos.z}px) 
                           rotate3D(${this.rot[1]}, ${this.rot[2]}, ${this.rot[3]}, ${this.rot[0]}deg);
-                transition: transform 1s;
+                animation-duration: ${this.totalFrames / FRAME_RATE}s;
+                animation-iteration-count: infinite;
+                animation-direction: normal;
+                animation-name: box_${this.index}_animation;
+            }
+
+            @keyframes box_${this.index}_animation {
+                ${keyframes}
             }
 
             .box_face_${this.index} {
