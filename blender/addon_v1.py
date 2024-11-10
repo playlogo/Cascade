@@ -1,6 +1,7 @@
 import bpy
 import os
 import math
+import json
 
 bl_info = {
     "name": "Export Cube Data",
@@ -28,6 +29,9 @@ class ExportCubeDataOperator(bpy.types.Operator):
 
     def execute(self, context):
         cube_data = []
+        scene = context.scene
+
+        max_frame = 0
 
         # Collect all cubes
         for obj in bpy.context.scene.objects:
@@ -47,8 +51,16 @@ class ExportCubeDataOperator(bpy.types.Operator):
 
             location = obj.location.copy()
             scale = obj.scale.copy()
-            obj.rotation_mode = "AXIS_ANGLE"
-            rotation = obj.rotation_axis_angle
+            rotation = obj.rotation_euler.copy()
+
+            # Ensure the rotation is in quaternion format
+            rotation_quaternion = rotation.to_quaternion()
+
+            # Convert quaternion to axis-angle
+            axis, angle = rotation_quaternion.to_axis_angle()
+
+            # Store the rotation as (axis_x, axis_y, axis_z, angle)
+            rotation = (self.radToDeg(angle), axis.x, axis.y, axis.z)
 
             # Collect face colors with consistent face order
             face_normals = {
@@ -96,20 +108,52 @@ class ExportCubeDataOperator(bpy.types.Operator):
                 color = face_normals.get(normal, (1.0, 1.0, 1.0, 1.0))
                 face_colors_extracted.append(color)
 
+            # Extract keyframes
+            keyframes = []
+            if obj.animation_data and obj.animation_data.action:
+                frames = set()
+                for fcurve in obj.animation_data.action.fcurves:
+                    for kp in fcurve.keyframe_points:
+                        frames.add(int(kp.co.x))
+                for frame in sorted(frames):
+                    scene.frame_set(frame)
+                    if frame > max_frame:
+                        max_frame = frame
+                    loc = obj.location.copy()
+                    rot = (
+                        obj.rotation_quaternion.copy()
+                        if obj.rotation_mode == "QUATERNION"
+                        else obj.rotation_euler.to_quaternion()
+                    )
+                    scale = obj.scale.copy()
+                    keyframe_data = {
+                        "frame": frame,
+                        "loc": [loc.x, loc.y, loc.z],
+                        "rot": [rot.w, rot.x, rot.y, rot.z],
+                        "scale": [scale.x, scale.y, scale.z],
+                    }
+                    keyframes.append(keyframe_data)
+
             # Store cube
             cube_data.append(
                 {
+                    "type": "box",
                     "name": obj.name,
-                    "location": location,
-                    "scale": scale,
-                    "rotation": rotation,
+                    "location": [location.x, location.y, location.z],
+                    "scale": [scale.x, scale.y, scale.z],
+                    "rotation": [rotation[0], rotation[1], rotation[2], rotation[3]],
                     "face_colors": face_colors_extracted,
+                    "keyframes": keyframes,
                 }
             )
 
         # Write cubes to file
         with open(self.filepath, "w") as f:
-            f.write('# {"origin": "blender", "version": 2} \n')
+            f.write(
+                '# {"origin": "blender", "version": 3, "maxFrame":'
+                + str(max_frame)
+                + "} \n"
+            )
 
             # Store camera position & rotation if available
             if context.scene.camera:
@@ -123,13 +167,10 @@ class ExportCubeDataOperator(bpy.types.Operator):
 
             # Store cubes
             for cube in cube_data:
-                loc = cube["location"]
-                scale = cube["scale"]
-                rot = cube["rotation"]
+                # Convert colors to hex
                 colors = cube["face_colors"]
                 colors_hex = []
 
-                # Convert colors to hex
                 for color in colors:
                     r, g, b, a = color
                     hex_color = "#{:02x}{:02x}{:02x}{:02x}".format(
@@ -137,11 +178,10 @@ class ExportCubeDataOperator(bpy.types.Operator):
                     )
                     colors_hex.append(hex_color)
 
+                cube["face_colors"] = colors_hex
+
                 # Store cube
-                f.write(
-                    f"box {loc.x} {loc.y} {loc.z} {scale.x} {scale.y} {scale.z} {rot[0]} {rot[1]} {rot[2]} {rot[3]} "
-                )
-                f.write(" ".join(colors_hex))
+                f.write(json.dumps(cube))
                 f.write("\n")
 
         # Save the file path to preferences

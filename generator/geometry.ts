@@ -67,17 +67,12 @@ export class Box extends Shape {
             .box_face_${this.index} {
                 position: absolute;
                 border: 1px solid black;
-                font-size: 40px;
-                font-weight: bold;
-                color: white;
-                text-align: center;
             }
 
             .box_face_${this.index}_front,
             .box_face_${this.index}_back {
                 width: ${this.size.x}px;
                 height: ${this.size.y}px;
-                line-height: ${this.size.y}px;
             }
 
             .box_face_${this.index}_right,
@@ -85,7 +80,6 @@ export class Box extends Shape {
                 width: ${this.size.z}px;
                 height: ${this.size.y}px;
                 left: ${this.size.x / 2 - this.size.z / 2}px;
-                line-height: ${this.size.y}px;
             }
 
             .box_face_${this.index}_top,
@@ -93,24 +87,27 @@ export class Box extends Shape {
                 width: ${this.size.x}px;
                 height: ${this.size.z}px;
                 top: ${this.size.y / 2 - this.size.z / 2}px;
-                line-height: ${this.size.z}px;
             }
 
-            .box_face_${this.index}_front  { background: ${this.faceColors[0]}; }
-            .box_face_${this.index}_right  { background: ${this.faceColors[3]}; }
-            .box_face_${this.index}_back   { background: ${this.faceColors[2]}; }
-            .box_face_${this.index}_left   { background: ${this.faceColors[1]}; }
-            .box_face_${this.index}_top    { background: ${this.faceColors[4]}; }
-            .box_face_${this.index}_bottom { background: ${this.faceColors[5]}; }
+            .box_face_${this.index}_front  { background: ${
+			this.faceColors[0]
+		}; transform: rotateY(  0deg) translateZ(${this.size.z / 2}px); }
+            .box_face_${this.index}_right  { background: ${
+			this.faceColors[3]
+		}; transform: rotateY( 90deg) translateZ(${this.size.x / 2}px); }
+            .box_face_${this.index}_back   { background: ${
+			this.faceColors[2]
+		}; transform: rotateY(180deg) translateZ(${this.size.z / 2}px); }
+            .box_face_${this.index}_left   { background: ${
+			this.faceColors[1]
+		}; transform: rotateY(-90deg) translateZ(${this.size.x / 2}px); }
+            .box_face_${this.index}_top    { background: ${
+			this.faceColors[4]
+		}; transform: rotateX( 90deg) translateZ(${this.size.y / 2}px); }
+            .box_face_${this.index}_bottom { background: ${
+			this.faceColors[5]
+		}; transform: rotateX(-90deg) translateZ(${this.size.y / 2}px); }
 
-            .box_face_${this.index}_front  { transform: rotateY(  0deg) translateZ(${this.size.z / 2}px); }
-            .box_face_${this.index}_back   { transform: rotateY(180deg) translateZ(${this.size.z / 2}px); }
-
-            .box_face_${this.index}_right  { transform: rotateY( 90deg) translateZ(${this.size.x / 2}px); }
-            .box_face_${this.index}_left   { transform: rotateY(-90deg) translateZ(${this.size.x / 2}px); }
-
-            .box_face_${this.index}_top    { transform: rotateX( 90deg) translateZ(${this.size.y / 2}px); }
-            .box_face_${this.index}_bottom { transform: rotateX(-90deg) translateZ(${this.size.y / 2}px); }
         `;
 	}
 }
