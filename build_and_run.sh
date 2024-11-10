@@ -19,4 +19,4 @@ echo "$count" > "$count_file"
 
 
 # Run the new instance in the background
-deno task run &
+deno task run out/shapes2.txt &
